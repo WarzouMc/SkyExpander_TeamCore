@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class TeamGroupPlayerList {
     private Main main;
     private File groupsFile;
     private Player creator;
+    private Player player;
 
     private String listPath;
     private File listFile;
@@ -31,6 +33,25 @@ public class TeamGroupPlayerList {
 
     public TeamGroupPlayerList(Main main, File groupsFile) {
         new TeamGroupPlayerList(main, groupsFile, null);
+    }
+
+    public TeamGroupPlayerList(Main main, File groupsFile, Player player, int action) {
+        this.main = main;
+        this.groupsFile = groupsFile;
+        this.player = player;
+
+        this.listPath = groupsFile.getPath() + "/list.json";
+        this.listFile = new File(listPath);
+
+        reload();
+        if (action == 0){
+            addPlayer();
+        } else if (action == 1){
+            rvmPlayer();
+        }
+        if (action != -1){
+            save();
+        }
     }
 
     public TeamGroupPlayerList(Main main, File groupsFile, Player creator) {
@@ -69,8 +90,25 @@ public class TeamGroupPlayerList {
     private void defaultsList() {
         JSONArray jsonArray = new JSONArray();
         if (creator != null) {
-            jsonArray.add(UUID.nameUUIDFromBytes(creator.getName().getBytes()));
+            jsonArray.add(creator.getName());
         }
+        defaults.put("in", jsonArray);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getPlayers(){
+        return getArray("in");
+    }
+
+    public void addPlayer(){
+        JSONArray jsonArray = getArray("in");
+        jsonArray.add(player.getName());
+        defaults.put("in", jsonArray);
+    }
+
+    public void rvmPlayer(){
+        JSONArray jsonArray = getArray("in");
+        jsonArray.remove(player.getName());
         defaults.put("in", jsonArray);
     }
 

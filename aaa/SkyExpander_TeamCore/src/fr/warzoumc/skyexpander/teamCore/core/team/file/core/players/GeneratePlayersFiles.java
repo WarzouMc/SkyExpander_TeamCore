@@ -1,7 +1,9 @@
 package fr.warzoumc.skyexpander.teamCore.core.team.file.core.players;
 
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.players.player.TeamPlayerStat;
+import fr.warzoumc.skyexpander.teamCore.core.team.teamObj.Team;
 import fr.warzoumc.skyexpander.teamCore.main.Main;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 
@@ -26,4 +28,12 @@ public class GeneratePlayersFiles {
         }
     }
 
+    public void degenerate(Main main, Player player) {
+        String filePath = main.getDataFolder() + "/team/" + Team.fromPlayer(main, player).getTeamName() + "/core/players/" + player.getName();
+        File file = new File(filePath);
+        for (File f : file.listFiles()) {
+            f.delete();
+        }
+        file.delete();
+    }
 }

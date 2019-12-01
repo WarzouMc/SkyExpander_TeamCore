@@ -21,6 +21,7 @@ public class TeamPlayerList {
     private Main main;
     private File playersFile;
     private Player creator;
+    private Player player;
 
     private String listPath;
     private File listFile;
@@ -39,6 +40,24 @@ public class TeamPlayerList {
 
         reload();
         //action
+        save();
+    }
+
+    public TeamPlayerList(Main main, File playersFile, Player player, int action){
+        this.main = main;
+        this.playersFile = playersFile;
+
+        this.player = player;
+
+        this.listPath = playersFile.getPath() + "/list.json";
+        this.listFile = new File(listPath);
+
+        reload();
+        if (action == 0){
+            addPlayer();
+        } else if (action == 1){
+            rvmPlayer();
+        }
         save();
     }
 
@@ -77,6 +96,18 @@ public class TeamPlayerList {
     @SuppressWarnings("unchecked")
     public List<String> getPlayers(){
         return (List<String>) getArray("players");
+    }
+
+    public void addPlayer(){
+        JSONArray jsonArray = getArray("players");
+        jsonArray.add(player.getName());
+        defaults.put("players", jsonArray);
+    }
+
+    public void rvmPlayer(){
+        JSONArray jsonArray = getArray("players");
+        jsonArray.remove(player.getName());
+        defaults.put("players", jsonArray);
     }
 
     @SuppressWarnings("unchecked")

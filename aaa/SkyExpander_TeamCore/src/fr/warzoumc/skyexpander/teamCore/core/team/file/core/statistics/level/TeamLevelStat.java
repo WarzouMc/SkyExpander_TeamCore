@@ -39,6 +39,16 @@ public class TeamLevelStat {
         save();
     }
 
+    public TeamLevelStat(Main main, File statsFile, boolean action) {
+        this.main = main;
+        this.statsFile = statsFile;
+
+        this.levelPath = statsFile.getPath() + "/level.json";
+        this.levelFile = new File(levelPath);
+
+        reload();
+    }
+
     private void reload() {
         if (!levelFile.getParentFile().exists()){
             levelFile.getParentFile().mkdirs();
@@ -67,14 +77,31 @@ public class TeamLevelStat {
         return (int) getInteger("needPoints");
     }
 
-    @SuppressWarnings("unchecked")
-    private void defaultsLevel() {
-        defaults.put("level", 1);
-        defaults.put("needPoints", 100);
+    public int getTotalPoint(){
+        return (int) getInteger("totalPoint");
+    }
+
+    public void addLevel(int i){
+        defaults.put("level", getLevel() + i);
+    }
+
+    public void setNeedPoints(int i){
+        defaults.put("needPoint", i);
+    }
+
+    public void addTotalPoint(int i){
+        defaults.put("totalPoint", getTotalPoint() + i);
     }
 
     @SuppressWarnings("unchecked")
-    private void save(){
+    private void defaultsLevel() {
+        defaults.put("level", 1);
+        defaults.put("needPoints", 1005);
+        defaults.put("totalPoint", 0);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void save(){
         try {
             JSONObject toSave = jsonObject;
 

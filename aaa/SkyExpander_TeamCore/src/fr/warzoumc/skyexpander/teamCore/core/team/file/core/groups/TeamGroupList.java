@@ -19,7 +19,6 @@ public class TeamGroupList {
 
     private Main main;
     private File groupsFile;
-    private Player creator;
 
     private String listPath;
     private File listFile;
@@ -29,10 +28,9 @@ public class TeamGroupList {
 
     private HashMap<String, Object> defaults = new HashMap<>();
 
-    public TeamGroupList(Main main, File groupsFile, Player creator) {
+    public TeamGroupList(Main main, File groupsFile) {
         this.main = main;
         this.groupsFile = groupsFile;
-        this.creator = creator;
 
         this.listPath = groupsFile.getPath() + "/list.json";
         this.listFile = new File(listPath);

@@ -25,7 +25,7 @@ public class TeamGroups {
 
     public void create(){
         groupsFile.mkdirs();
-        new TeamGroupList(main, groupsFile, creator);
+        new TeamGroupList(main, groupsFile);
         new GenerateGroupsFiles(main, groupsFile, creator).generate();
     }
 

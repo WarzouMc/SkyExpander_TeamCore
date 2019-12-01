@@ -22,12 +22,12 @@ public class GenerateGroupsFiles {
     }
 
     public void generate(){
-        for (String s : new TeamGroupList(main, groupsFile, creator).getGroups()) {
+        for (String s : new TeamGroupList(main, groupsFile).getGroups()) {
             String filePath = groupsFile.getPath() + "/" + s;
             File file = new File(filePath);
             if (!file.exists()){
                 file.mkdirs();
-                if (new TeamGroupList(main, groupsFile, creator).getGroups().get(0).equalsIgnoreCase(s)){
+                if (new TeamGroupList(main, groupsFile).getGroups().get(0).equalsIgnoreCase(s)){
                     new TeamGroupPlayerList(main, file, creator);
                 } else {
                     new TeamGroupPlayerList(main, file);

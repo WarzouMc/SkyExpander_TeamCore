@@ -1,8 +1,10 @@
 package fr.warzoumc.skyexpander.teamCore.core.team.teamObj.core.level;
 
+import fr.warzoumc.skyexpander.teamCore.core.players.GeneralPlayerInformation;
 import fr.warzoumc.skyexpander.teamCore.core.team.teamObj.Team;
 import fr.warzoumc.skyexpander.teamCore.main.Main;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class Donnation {
 
@@ -15,7 +17,7 @@ public class Donnation {
         this.main = main;
         this.donates = donates;
         this.team = Team.fromPlayer(main, donates);
-        assert team != null;
-        donates.sendMessage(team.getTeamName());
+        if (team == null) return;
+        donates.sendMessage(team.getTeamName() + " : " + new GeneralPlayerInformation(main, donates.getName()).getMoney());
     }
 }
