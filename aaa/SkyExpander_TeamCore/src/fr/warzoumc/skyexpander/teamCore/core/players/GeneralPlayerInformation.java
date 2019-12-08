@@ -1,6 +1,7 @@
 package fr.warzoumc.skyexpander.teamCore.core.players;
 
 import fr.warzoumc.skyexpander.teamCore.main.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -11,38 +12,57 @@ public class GeneralPlayerInformation {
 
     private Main main;
     private String playerName;
-    private String filePath;
-    private File mainFile;
-    private FileConfiguration mainConfig;
+    private String moneyPath;
+    private File moneyFile;
+    private FileConfiguration moneyConfig;
+
+    private String permanentUpgradePath;
+    private File permanentUpgradeFile;
+    private FileConfiguration permanentUpgradeConfig;
     public GeneralPlayerInformation(Main main, String playerName){
         this.main = main;
         this.playerName = playerName;
-        this.filePath = "plugins/SkyExpanderInternalPlugin/config.yml";
-        this.mainFile = new File(filePath);
-        if (existMainFile()){
-            this.mainConfig = YamlConfiguration.loadConfiguration(mainFile);
+        this.moneyPath = "plugins/SkyExpanderInternalPlugin/money.yml";
+        this.moneyFile = new File(moneyPath);
+        if (existMoneyFile()){
+            this.moneyConfig = YamlConfiguration.loadConfiguration(moneyFile);
+        }
+
+        this.permanentUpgradePath = "plugins/SkyExpanderInternalPlugin/permanentConfig.yml";
+        this.permanentUpgradeFile = new File(permanentUpgradePath);
+        if (existPermanentUpgradeFile()){
+            this.permanentUpgradeConfig = YamlConfiguration.loadConfiguration(permanentUpgradeFile);
         }
     }
 
-    private boolean existMainFile(){
-        return mainFile.exists();
+    private boolean existMoneyFile(){
+        return moneyFile.exists();
+    }
+
+    private boolean existPermanentUpgradeFile(){
+        return permanentUpgradeFile.exists();
     }
 
     public int getMoney(){
-        return existMainFile() && mainConfig.contains("monai." + playerName) ? mainConfig.getInt("monai." +
+        return existMoneyFile() && moneyConfig.contains("money." + playerName) ? moneyConfig.getInt("money." +
                 playerName) : 0;
     }
 
     public void rmvMoney(int i){
-        if (existMainFile() && mainConfig.contains("monai." + playerName)){
-            mainConfig.set("monai." + playerName, getMoney() - i);
+        if (existMoneyFile() && moneyConfig.contains("money." + playerName)){
+            moneyConfig.set("money." + playerName, getMoney() - i);
             try {
-                mainConfig.save(mainFile);
+                moneyConfig.save(moneyFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            YamlConfiguration.loadConfiguration(mainFile);
+            YamlConfiguration.loadConfiguration(moneyFile);
         }
+    }
+
+    public int getDonationLevel(){
+        return existPermanentUpgradeFile() && permanentUpgradeConfig.contains(playerName + ".donation") ?
+                permanentUpgradeConfig.getInt(playerName + ".donation") : 0;
     }
 
 }

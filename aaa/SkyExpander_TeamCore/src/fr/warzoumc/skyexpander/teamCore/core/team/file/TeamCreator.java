@@ -18,7 +18,7 @@ public class TeamCreator {
 
     public TeamCreator(Main main, String teamName, Player creator) {
         this.main = main;
-        this.teamName = unaccent(teamName);
+        this.teamName = unaccent(teamName).replace("/", "");
         this.creator = creator;
 
         this.path = main.getDataFolder() + "/team/" + this.teamName;

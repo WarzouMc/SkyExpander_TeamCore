@@ -27,6 +27,20 @@ public class TeamGroupProperty {
 
     private HashMap<String, Object> defaults = new HashMap<>();
 
+    public TeamGroupProperty(Main main, File groupsFile, String groupName, int action) {
+        this.main = main;
+        this.groupsFile = groupsFile;
+        this.groupName = groupName;
+
+        this.propertyPath = groupsFile.getPath() + "/property.json";
+        this.propertyFile = new File(propertyPath);
+
+        reload();
+        if (action != -1){
+            save();
+        }
+    }
+
     public TeamGroupProperty(Main main, File groupsFile, String groupName) {
         this.main = main;
         this.groupsFile = groupsFile;
@@ -59,6 +73,10 @@ public class TeamGroupProperty {
         }
     }
 
+    public String getGroupDef(){
+        return (String) getObject("chatSetting").get("def");
+    }
+
     @SuppressWarnings("unchecked")
     private void defaultsProperty() {
         JSONObject chatSettings = new JSONObject();
@@ -70,7 +88,7 @@ public class TeamGroupProperty {
         } else if (groupName.equalsIgnoreCase("sergent")){
             chatSettings.put("def", "§f[§4Sergent de team§f]");
         } else if (groupName.equalsIgnoreCase("player")){
-            chatSettings.put("def", "§f[§fJoueur de team§f]");
+            chatSettings.put("def", "§f[§7Joueur de team§f]");
         }
 
         defaults.put("chatSetting", chatSettings);

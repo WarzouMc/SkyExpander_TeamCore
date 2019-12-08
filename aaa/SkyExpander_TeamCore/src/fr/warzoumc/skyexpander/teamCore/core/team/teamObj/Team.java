@@ -2,6 +2,7 @@ package fr.warzoumc.skyexpander.teamCore.core.team.teamObj;
 
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.groups.TeamGroupList;
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.groups.list.TeamGroupPlayerList;
+import fr.warzoumc.skyexpander.teamCore.core.team.file.core.groups.propertys.TeamGroupProperty;
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.players.TeamPlayerList;
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.statistics.level.TeamLevelStat;
 import fr.warzoumc.skyexpander.teamCore.main.Main;
@@ -67,6 +68,11 @@ public class Team {
         return teamLevelStat.getTotalPoint();
     }
 
+    public int getTeamSize(){
+        List<String> playerList = new TeamPlayerList(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/players")).getPlayers();
+        return playerList.size();
+    }
+
     /*Team groups*/
     public String groupNameFromPlayer(Player player){
         TeamGroupList teamGroupList = new TeamGroupList(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/groups"));
@@ -77,5 +83,12 @@ public class Team {
             }
         }
         return null;
+    }
+
+
+    //Graphics information
+    public String getGroupDef(Player player){
+        TeamGroupProperty teamGroupProperty = new TeamGroupProperty(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/groups/" + groupNameFromPlayer(player)), groupNameFromPlayer(player), -1);
+        return teamGroupProperty.getGroupDef();
     }
 }

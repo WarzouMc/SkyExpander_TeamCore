@@ -25,7 +25,7 @@ public class PassLevel {
             int teamLevel = team.getTeamLevel() + 1;
             double newNeedPointD = ((teamLevel * (teamLevel - 1)) + (teamLevel * (1 + (teamLevel / 200)))) * 1000;
             int newNeedPoint = (int) Math.round(newNeedPointD);
-            TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(team.getTeamName() + "/core/stats"), true);
+            TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(main.getDataFolder() + "/team/" + team.getTeamName() + "/core/stats"), true);
             teamLevelStat.addLevel(1);
             teamLevelStat.setNeedPoints(newNeedPoint);
             teamLevelStat.save();
