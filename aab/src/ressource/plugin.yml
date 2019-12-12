@@ -1,0 +1,7 @@
+name: SkyExpander_TeamCore
+main: fr.warzoumc.skyexpander.teamCore.main.Main
+version: 0.0.2
+author: WarzouMc
+commands:
+  team:
+    permission: skyexpander.op
