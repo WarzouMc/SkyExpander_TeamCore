@@ -6,11 +6,13 @@ import fr.warzoumc.skyexpander.teamCore.core.team.file.core.groups.propertys.Tea
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.players.TeamPlayerList;
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.statistics.level.TeamLevelStat;
 import fr.warzoumc.skyexpander.teamCore.main.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class Team {
 
@@ -52,29 +54,34 @@ public class Team {
 
     /*team stat*/
     public int getTeamLevel(){
-        TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/stats"));
+        TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(main.getDataFolder() + "/team/"
+                + teamName + "/core/stats"));
         return teamLevelStat.getLevel();
     }
 
     public int getTeamLevelNeedMoney(){
-        TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/stats"));
+        TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(main.getDataFolder() + "/team/"
+                + teamName + "/core/stats"));
         return teamLevelStat.getNeedMoney();
     }
 
     public int getTeamTotalMoney(){
-        TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/stats"));
+        TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(main.getDataFolder() + "/team/"
+                + teamName + "/core/stats"));
         return teamLevelStat.getTotalMoney();
     }
 
     public int getTeamSize(){
-        List<String> playerList = new TeamPlayerList(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/players")).getPlayers();
+        List<String> playerList = new TeamPlayerList(main, new File(main.getDataFolder() + "/team/"
+                + teamName + "/core/players")).getPlayers();
         return playerList.size();
     }
 
     /*Team groups*/
     public String groupNameFromPlayer(Player player){
         for (String groups : getGroups()) {
-            TeamGroupPlayerList teamGroupPlayerList = new TeamGroupPlayerList(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/groups/" + groups), player, -1);
+            TeamGroupPlayerList teamGroupPlayerList = new TeamGroupPlayerList(main, new File(main.getDataFolder()
+                    + "/team/" + teamName + "/core/groups/" + groups), player, -1);
             if (teamGroupPlayerList.getPlayers().contains(player.getName())){
                 return groups;
             }
@@ -83,18 +90,21 @@ public class Team {
     }
 
     public List<String> getGroupPlayerList(String groups){
-        TeamGroupPlayerList teamGroupPlayerList = new TeamGroupPlayerList(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/groups/" + groups), null, -1);
+        TeamGroupPlayerList teamGroupPlayerList = new TeamGroupPlayerList(main, new File(main.getDataFolder()
+                + "/team/" + teamName + "/core/groups/" + groups), null, -1);
         return teamGroupPlayerList.getPlayers();
     }
 
     public List<String> getGroups(){
-        TeamGroupList teamGroupList = new TeamGroupList(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/groups"));
+        TeamGroupList teamGroupList = new TeamGroupList(main, new File(main.getDataFolder() + "/team/"
+                + teamName + "/core/groups"));
         return teamGroupList.getGroups();
     }
 
     //Graphics information
     public String getGroupDef(Player player){
-        TeamGroupProperty teamGroupProperty = new TeamGroupProperty(main, new File(main.getDataFolder() + "/team/" + teamName + "/core/groups/" + groupNameFromPlayer(player)), groupNameFromPlayer(player), -1);
+        TeamGroupProperty teamGroupProperty = new TeamGroupProperty(main, new File(main.getDataFolder()
+                + "/team/" + teamName + "/core/groups/" + groupNameFromPlayer(player)), groupNameFromPlayer(player), -1);
         return teamGroupProperty.getGroupDef();
     }
 
@@ -127,7 +137,8 @@ public class Team {
         return teamColor + "####§2 " + teamName + teamColor + " ####\n" +
                 teamColor + "## §eProgression §f:\n" +
                 teamColor + "## §aLevel §f: §9" + getTeamLevel() + "\n" +
-                teamColor + "## §aArgent recueilli §f: §9" + getTeamTotalMoney() + "§f/§1" + getTeamLevelNeedMoney() + "\n" +
+                teamColor + "## §aArgent recueilli §f: §9" + getTeamTotalMoney() + "§f/§1" + getTeamLevelNeedMoney()
+                + "\n" +
                 teamColor + "## §aSurplus §f: §9" + inMore + "\n" +
                 teamColor + "## §r" + getProgressionString();
     }
