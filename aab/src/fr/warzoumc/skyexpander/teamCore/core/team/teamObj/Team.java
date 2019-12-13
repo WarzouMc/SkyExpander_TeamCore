@@ -6,6 +6,7 @@ import fr.warzoumc.skyexpander.teamCore.core.team.file.core.groups.propertys.Tea
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.players.TeamPlayerList;
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.statistics.level.TeamLevelStat;
 import fr.warzoumc.skyexpander.teamCore.main.Main;
+import fr.warzoumc.skyexpander.teamCore.utils.GeneralPlayerInformation;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -103,8 +104,12 @@ public class Team {
 
     //Graphics information
     public String getGroupDef(Player player){
+        return getGroupDef(groupNameFromPlayer(player));
+    }
+
+    public String getGroupDef(String group){
         TeamGroupProperty teamGroupProperty = new TeamGroupProperty(main, new File(main.getDataFolder()
-                + "/team/" + teamName + "/core/groups/" + groupNameFromPlayer(player)), groupNameFromPlayer(player), -1);
+                + "/team/" + teamName + "/core/groups/" + group), group, -1);
         return teamGroupProperty.getGroupDef();
     }
 
@@ -120,9 +125,15 @@ public class Team {
             groupOfPlayer.put(groups, getGroupPlayerList(groups));
         }
         groupOfPlayer.forEach((s, strings) -> {
-            string.append(s + "\n");
-            strings.forEach(s1 -> string.append(s1).append(", "));
-            string.append("\n");
+            if (strings.size() > 0){
+                string.append(getGroupDef(s) + "§f :  \n");
+                strings.forEach(playerName -> {
+                    GeneralPlayerInformation generalPlayerInformation = new GeneralPlayerInformation(main, playerName);
+                    string.append(generalPlayerInformation.getDisplayName()).append((generalPlayerInformation.isOnline() ? "§2" : "§4") + " \u25CF§r").append(", ");
+                });
+                string.delete(string.length() - 2, string.length());
+                string.append("\n");
+            }
         });
 
         return string.toString();

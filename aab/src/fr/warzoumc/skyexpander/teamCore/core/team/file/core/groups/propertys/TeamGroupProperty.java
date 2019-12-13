@@ -84,9 +84,9 @@ public class TeamGroupProperty {
         if (groupName.equalsIgnoreCase("owner")){
             chatSettings.put("def", "§f[§cChef de team§f]");
         } else if (groupName.equalsIgnoreCase("general")){
-            chatSettings.put("def", "§f[§4General de team§f]");
+            chatSettings.put("def", "§f[§eGeneral de team§f]");
         } else if (groupName.equalsIgnoreCase("sergent")){
-            chatSettings.put("def", "§f[§4Sergent de team§f]");
+            chatSettings.put("def", "§f[§bSergent de team§f]");
         } else if (groupName.equalsIgnoreCase("player")){
             chatSettings.put("def", "§f[§7Joueur de team§f]");
         }

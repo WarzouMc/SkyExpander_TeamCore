@@ -1,11 +1,11 @@
 package fr.warzoumc.skyexpander.teamCore.core.team.teamObj.core.level;
 
-import fr.warzoumc.skyexpander.teamCore.core.players.GeneralPlayerInformation;
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.players.player.DonationObject;
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.players.player.TeamPlayerStat;
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.statistics.level.TeamLevelStat;
 import fr.warzoumc.skyexpander.teamCore.core.team.teamObj.Team;
 import fr.warzoumc.skyexpander.teamCore.main.Main;
+import fr.warzoumc.skyexpander.teamCore.utils.GeneralPlayerInformation;
 import org.bukkit.entity.Player;
 
 import java.io.File;
