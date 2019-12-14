@@ -14,7 +14,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.UUID;
 
 public class TeamPlayerList {
 
@@ -58,7 +57,9 @@ public class TeamPlayerList {
         } else if (action == 1){
             rvmPlayer();
         }
-        save();
+        if (action != -1){
+            save();
+        }
     }
 
     public TeamPlayerList(Main main, File playersFile, Player creator) {

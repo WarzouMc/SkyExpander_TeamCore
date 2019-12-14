@@ -7,13 +7,12 @@ import fr.warzoumc.skyexpander.teamCore.core.team.file.core.players.TeamPlayerLi
 import fr.warzoumc.skyexpander.teamCore.core.team.file.core.statistics.level.TeamLevelStat;
 import fr.warzoumc.skyexpander.teamCore.main.Main;
 import fr.warzoumc.skyexpander.teamCore.utils.GeneralPlayerInformation;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Team {
 
@@ -53,6 +52,41 @@ public class Team {
         return teamName;
     }
 
+    /*team player*/
+    public List<String> getTeamPlayerList(){
+        TeamPlayerList teamPlayerList = new TeamPlayerList(main, new File(main.getDataFolder() + "/team/"
+                + teamName + "/core/players"));
+        return teamPlayerList.getPlayers();
+    }
+
+    public List<Player> getTeamPlayerList_(){
+        List<Player> playerList = new ArrayList<>();
+        getTeamPlayerList().forEach(s -> playerList.add(Bukkit.getPlayer(s)));
+        return playerList;
+    }
+
+    public List<Player> getOnlinePlayer(){
+        return getTeamPlayerList_().stream().filter(player -> Bukkit.getOnlinePlayers().contains(player))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getOfflinePlayer(){
+        return getTeamPlayerList_().stream().filter(player -> !Bukkit.getOnlinePlayers().contains(player))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getOnlinePlayerName(){
+        List<String> playerList = new ArrayList<>();
+        getOnlinePlayer().forEach(player -> playerList.add(player.getName()));
+        return playerList;
+    }
+
+    public List<String> getOffLinePlayerName(){
+        List<String> playerList = new ArrayList<>();
+        getOfflinePlayer().forEach(player -> playerList.add(player.getName()));
+        return playerList;
+    }
+
     /*team stat*/
     public int getTeamLevel(){
         TeamLevelStat teamLevelStat = new TeamLevelStat(main, new File(main.getDataFolder() + "/team/"
@@ -81,7 +115,8 @@ public class Team {
     /*Team groups*/
     public String groupNameFromPlayer(Player player){
         for (String groups : getGroups()) {
-            TeamGroupPlayerList teamGroupPlayerList = new TeamGroupPlayerList(main, new File(main.getDataFolder()
+            TeamGroupPlayerList teamGroupPlayerList = new TeamGroupPlayerList(main,
+                    new File(main.getDataFolder()
                     + "/team/" + teamName + "/core/groups/" + groups), player, -1);
             if (teamGroupPlayerList.getPlayers().contains(player.getName())){
                 return groups;
@@ -129,7 +164,8 @@ public class Team {
                 string.append(getGroupDef(s) + "§f :  \n");
                 strings.forEach(playerName -> {
                     GeneralPlayerInformation generalPlayerInformation = new GeneralPlayerInformation(main, playerName);
-                    string.append(generalPlayerInformation.getDisplayName()).append((generalPlayerInformation.isOnline() ? "§2" : "§4") + " \u25CF§r").append(", ");
+                    string.append(generalPlayerInformation.getDisplayName()).append((generalPlayerInformation.isOnline()
+                            ? "§2" : "§4") + " \u25CF§r").append(", ");
                 });
                 string.delete(string.length() - 2, string.length());
                 string.append("\n");
@@ -166,5 +202,9 @@ public class Team {
             str.append("\u2588");
         }
         return String.valueOf(str.append(teamColor + "§l]§r"));
+    }
+
+    public String getColor(){
+        return main.colorFromLevel(getTeamLevel());
     }
 }

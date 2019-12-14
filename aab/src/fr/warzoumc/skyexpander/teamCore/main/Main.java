@@ -1,11 +1,9 @@
 package fr.warzoumc.skyexpander.teamCore.main;
 
 import fr.warzoumc.skyexpander.teamCore.core.commands.TeamCommand;
+import fr.warzoumc.skyexpander.teamCore.listeners.PlayerInTeamListener;
 import fr.warzoumc.skyexpander.teamCore.listeners.PluginListener;
 import fr.warzoumc.skyexpander.teamCore.runnables.TeamInfoUpdater;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -28,6 +26,7 @@ public class Main extends JavaPlugin {
 
         //Listeners
         getServer().getPluginManager().registerEvents(new PluginListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerInTeamListener(this), this);
 
         //runnable
         TeamInfoUpdater teamInfoUpdater = new TeamInfoUpdater(this);
